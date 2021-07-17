@@ -1,19 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { TextField, Box, Radio, Button } from "@material-ui/core/";
+import { db } from "../../db";
 import firebase from "firebase/app";
 import "firebase/auth";
 
 export default function SignUp() {
-  const [userType, setUserType] = useState("admin");
   const [user, setUser] = useState({
     name: "",
     email: "",
     password: "",
+    type: "admin",
     error: "",
   });
 
   const handleUserType = (e) => {
-    setUserType(e.target.value);
+    setUser({
+      ...user,
+      type: e.target.value,
+      error: "",
+    });
   };
 
   const handleFieldChange = (e) => {
@@ -40,11 +45,12 @@ export default function SignUp() {
       //     verifyEmail: `Welcome ${user.name}. To continue please verify your email.`,
       //   });
 
-      //   await userCollection.doc(createdUser.user.uid).set({
-      //     id: createdUser.user.uid,
-      //     email: user.email,
-      //     name: user.name,
-      //   });
+      await db.collection("users").doc(createdUser.user.uid).set({
+        id: createdUser.user.uid,
+        email: user.email,
+        name: user.name,
+        type: user.type,
+      });
     } catch (error) {
       console.log("error!");
       console.error(error);
@@ -86,7 +92,7 @@ export default function SignUp() {
         />
         <Box display="flex" flexDirection="row" alignItems="center">
           <Radio
-            checked={userType === "admin"}
+            checked={user.type === "admin"}
             onChange={handleUserType}
             value="admin"
             name="radio-button-demo"
@@ -94,7 +100,7 @@ export default function SignUp() {
           />
           Admin
           <Radio
-            checked={userType === "user"}
+            checked={user.type === "user"}
             onChange={handleUserType}
             value="user"
             name="radio-button-demo"
