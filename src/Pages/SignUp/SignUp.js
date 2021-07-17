@@ -36,13 +36,14 @@ export default function SignUp() {
         .createUserWithEmailAndPassword(user.email, user.password);
 
       createdUser.user.updateProfile({
-        name: user.name,
+        displayName: user.name,
+        type: user.type,
       });
 
       await db.collection("users").doc(createdUser.user.uid).set({
         id: createdUser.user.uid,
         email: user.email,
-        name: user.name,
+        displayName: user.name,
         type: user.type,
       });
     } catch (error) {

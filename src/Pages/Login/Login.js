@@ -3,39 +3,28 @@ import { TextField, Box, Radio, Button } from "@material-ui/core/";
 import { db } from "../../db";
 import firebase from "firebase/app";
 import "firebase/auth";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 
-export default function Login() {
+export default function Login({ onLogin, error }) {
   const [user, setUser] = useState({
     email: "",
     password: "",
-    error: "",
   });
 
   const handleFieldChange = (e) => {
     setUser({
       ...user,
       [e.target.name]: e.target.value,
-      error: "",
     });
   };
 
-  const handleSubmit = async () => {
-    if (user) {
-      try {
-        await firebase
-          .auth()
-          .signInWithEmailAndPassword(user.email, user.password);
-        // console.log(loggedIn ? true : false);
-        console.log("no error");
-      } catch (error) {
-        console.log("error!");
-        console.log(error.message);
-        setUser({
-          ...user,
-          error: error.message,
-        });
-      }
-    }
+  const handleSubmit = () => {
+    onLogin(user);
   };
 
   return (
