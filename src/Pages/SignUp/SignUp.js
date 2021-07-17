@@ -39,12 +39,6 @@ export default function SignUp() {
         name: user.name,
       });
 
-      //   await createdUser.user.sendEmailVerification();
-      //   setUser({
-      //     ...user,
-      //     verifyEmail: `Welcome ${user.name}. To continue please verify your email.`,
-      //   });
-
       await db.collection("users").doc(createdUser.user.uid).set({
         id: createdUser.user.uid,
         email: user.email,
