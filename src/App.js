@@ -96,7 +96,7 @@ function App() {
           </Route>
           <Route exact path="/user">
             {isLoggedIn && userDetails.type === "user" ? (
-              <User />
+              <User user={userDetails} />
             ) : (
               <Redirect to="/login" />
             )}
