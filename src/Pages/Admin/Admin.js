@@ -8,6 +8,7 @@ import Item from "./Components/Item/Item";
 
 export default function Admin() {
   const [items, setItems] = useState(null);
+
   const initializeItems = () => {
     async function run() {
       const res = await db.collection("items").get();
@@ -17,6 +18,7 @@ export default function Admin() {
     }
     run();
   };
+
   const handleAddItem = (item) => {
     setItems([...items, item]);
   };
