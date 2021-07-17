@@ -4,7 +4,7 @@ import { db } from "../../../../db";
 import firebase from "firebase/app";
 import "firebase/auth";
 
-export default function AddItem() {
+export default function AddItem({ onAddItem }) {
   const [item, setItem] = useState(null);
   const handleFieldChange = (e) => {
     setItem({
@@ -22,6 +22,12 @@ export default function AddItem() {
       await db.collection("items").doc(itemRef.id).update({
         id: itemRef.id,
       });
+      const newItem = {
+        id: itemRef.id,
+        name: item.name,
+        quantity: item.quantity,
+      };
+      onAddItem(newItem);
     } catch (error) {
       console.error(error);
     }

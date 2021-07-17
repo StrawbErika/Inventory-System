@@ -4,10 +4,28 @@ import firebase from "firebase/app";
 import { db } from "../../db";
 import "firebase/auth";
 import AddItem from "./Components/AddItem/AddItem";
+import Item from "./Components/Item/Item";
 
 export default function Admin() {
-  const [item, setItem] = useState(null);
-  const handleCreateItem = () => {};
+  const [items, setItems] = useState(null);
+  const initializeItems = () => {
+    async function run() {
+      const res = await db.collection("items").get();
+      const docs = res.docs;
+      const documents = docs.map((doc) => doc.data());
+      setItems(documents);
+    }
+    run();
+  };
+  const handleAddItem = (item) => {
+    setItems([...items, item]);
+  };
+
+  const handleDeleteItem = (items) => {
+    setItems(items);
+  };
+
+  useEffect(initializeItems, []);
   return (
     <div>
       <Box
@@ -18,11 +36,14 @@ export default function Admin() {
       >
         Are you an admin?
         <Box display="flex" flexDirection="column">
-          <AddItem />
+          <AddItem onAddItem={handleAddItem} />
         </Box>
-        <Button variant="contained" color="secondary">
-          Delete
-        </Button>
+        {items &&
+          items.map((item) => {
+            return (
+              <Item item={item} items={items} onDeleteItem={handleDeleteItem} />
+            );
+          })}
         <Button variant="contained" color="primary">
           Submit
         </Button>
