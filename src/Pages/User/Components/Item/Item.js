@@ -17,7 +17,9 @@ export default function Item({ item, user }) {
   // TODO: update request items whenever allow
   const requestItem = async () => {
     if (tempItem.quantity > item.quantity) {
-      setResponse("We don't have that much dumbass");
+      console.log(tempItem);
+      console.log(item);
+      setResponse(`${tempItem.quantity} is bigger than ${item.quantity}`);
     } else {
       setResponse("Ok pls wait while we ask the admins");
       try {
