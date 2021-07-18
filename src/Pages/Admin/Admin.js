@@ -5,9 +5,11 @@ import { db } from "../../db";
 import "firebase/auth";
 import AddItem from "./Components/AddItem/AddItem";
 import Item from "./Components/Item/Item";
+import Requests from "./Components/Requests/Requests";
 
 export default function Admin() {
   const [items, setItems] = useState(null);
+  const [users, setUsers] = useState(null);
 
   const initializeItems = () => {
     async function run() {
@@ -15,6 +17,16 @@ export default function Admin() {
       const docs = res.docs;
       const documents = docs.map((doc) => doc.data());
       setItems(documents);
+    }
+    run();
+  };
+
+  const initializeUsers = () => {
+    async function run() {
+      const res = await db.collection("users").get();
+      const docs = res.docs;
+      const documents = docs.map((doc) => doc.data());
+      setUsers(documents.filter((doc) => doc.type === "user"));
     }
     run();
   };
@@ -27,7 +39,10 @@ export default function Admin() {
     setItems(items);
   };
 
-  useEffect(initializeItems, []);
+  useEffect(() => {
+    initializeItems();
+    initializeUsers();
+  }, []);
   return (
     <div>
       <Box
@@ -46,9 +61,16 @@ export default function Admin() {
               <Item item={item} items={items} onDeleteItem={handleDeleteItem} />
             );
           })}
-        <Button variant="contained" color="primary">
-          Submit
-        </Button>
+        {users &&
+          users.map((user) => {
+            // return <Request user={user} />;
+            return (
+              <Box display="flex" flexDirection="column">
+                <>{user.displayName} requests: </>
+                <Requests user={user} />
+              </Box>
+            );
+          })}
       </Box>
     </div>
   );

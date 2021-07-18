@@ -28,6 +28,7 @@ export default function Item({ item, user }) {
             name: tempItem.name,
             quantity: tempItem.quantity,
             id: tempItem.id,
+            status: "pending",
           });
       } catch (error) {
         console.error(error);

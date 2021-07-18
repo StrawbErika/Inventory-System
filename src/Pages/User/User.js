@@ -4,10 +4,16 @@ import { db } from "../../db";
 import firebase from "firebase/app";
 import "firebase/auth";
 import Item from "./Components/Item/Item";
-
+import Request from "./Components/Request/Request";
+import Owned from "./Components/Owned/Owned";
 export default function User({ user }) {
   const [items, setItems] = useState(null);
+  const [requests, setRequests] = useState(null);
+  const [owned, setOwned] = useState(null);
 
+  const handleRequests = (requests) => {
+    setRequests(requests);
+  };
   const initializeItems = () => {
     async function run() {
       const res = await db.collection("items").get();
@@ -17,16 +23,39 @@ export default function User({ user }) {
     }
     run();
   };
+  const initializeRequests = () => {
+    async function run() {
+      const res = await db
+        .collection("users")
+        .doc(user.id)
+        .collection("requesting")
+        .get();
+      const docs = res.docs;
+      const documents = docs.map((doc) => doc.data());
+      setRequests(documents);
+    }
+    run();
+  };
+  const initializeOwned = () => {
+    async function run() {
+      const res = await db
+        .collection("users")
+        .doc(user.id)
+        .collection("owned")
+        .get();
+      const docs = res.docs;
+      const documents = docs.map((doc) => doc.data());
+      setOwned(documents);
+    }
+    run();
+  };
 
-  // const handleAddItem = (item) => {
-  //   setItems([...items, item]);
-  // };
+  useEffect(() => {
+    initializeItems();
+    initializeRequests();
+    initializeOwned();
+  }, []);
 
-  // const handleDeleteItem = (items) => {
-  //   setItems(items);
-  // };
-
-  useEffect(initializeItems, []);
   return (
     <div>
       <Box
@@ -39,6 +68,21 @@ export default function User({ user }) {
         {items &&
           items.map((item) => {
             return <Item item={item} user={user} />;
+          })}
+        {requests &&
+          requests.map((request) => {
+            return (
+              <Request
+                item={request}
+                requestItems={requests}
+                onRequest={handleRequests}
+                user={user}
+              />
+            );
+          })}
+        {owned &&
+          owned.map((own) => {
+            return <Owned item={own} />;
           })}
       </Box>
     </div>
