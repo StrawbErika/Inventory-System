@@ -8,9 +8,7 @@ import Request from "./Components/Request/Request";
 import Owned from "./Components/Owned/Owned";
 import { useHistory, Link } from "react-router-dom";
 
-export default function User({ user }) {
-  let history = useHistory();
-
+export default function User({ user, onLogout }) {
   const [items, setItems] = useState(null);
   const [requests, setRequests] = useState(null);
   const [owned, setOwned] = useState(null);
@@ -56,16 +54,7 @@ export default function User({ user }) {
 
   // TODO: WIP logging out
   const signOut = () => {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        console.log("signed out uwu");
-        history.push("/login");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    onLogout();
   };
 
   useEffect(() => {

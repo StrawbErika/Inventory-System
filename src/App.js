@@ -9,6 +9,7 @@ import {
   Switch,
   Route,
   Redirect,
+  useHistory,
 } from "react-router-dom";
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -16,6 +17,8 @@ import React, { useEffect, useState } from "react";
 import { db } from "./db";
 
 function App() {
+  let history = useHistory();
+
   const [userDetails, setUserDetails] = useState(null);
   const [userIsLoaded, setUserIsLoaded] = useState(false); //initialized, if nakuha na ung initial details
   const isLoggedIn = !!userDetails && userIsLoaded;
@@ -42,6 +45,18 @@ function App() {
     run();
   };
 
+  const logout = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        history.push("/login");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    setUserDetails(null);
+  };
   useEffect(initializeUser, []);
 
   const login = async (user) => {
@@ -96,7 +111,7 @@ function App() {
           </Route>
           <Route exact path="/user">
             {isLoggedIn && userDetails.type === "user" ? (
-              <User user={userDetails} />
+              <User user={userDetails} onLogout={logout} />
             ) : (
               <Redirect to="/login" />
             )}
