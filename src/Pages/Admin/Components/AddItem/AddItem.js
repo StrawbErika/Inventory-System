@@ -3,6 +3,7 @@ import { TextField, Box, Radio, Button } from "@material-ui/core/";
 import { db } from "../../../../db";
 import firebase from "firebase/app";
 import "firebase/auth";
+import { Add } from "@material-ui/icons/";
 
 export default function AddItem({ onAddItem }) {
   const [item, setItem] = useState(null);
@@ -58,7 +59,7 @@ export default function AddItem({ onAddItem }) {
             />
           </Box>
           <Button variant="contained" color="primary" onClick={handleAddItem}>
-            Add
+            <Add />
           </Button>
         </Box>
       </Box>

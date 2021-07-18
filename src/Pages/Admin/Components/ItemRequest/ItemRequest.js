@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Box, Button } from "@material-ui/core/";
 import { db } from "../../../../db";
 import "firebase/auth";
+import { Close, Check } from "@material-ui/icons/";
 
 export default function ItemRequest({
   item,
@@ -96,7 +97,7 @@ export default function ItemRequest({
                 color="secondary"
                 onClick={handleAllow}
               >
-                allow
+                <Check />
               </Button>
             </Box>
           )}
@@ -106,7 +107,7 @@ export default function ItemRequest({
               color="secondary"
               onClick={handleDecline}
             >
-              decline
+              <Close />
             </Button>
           </Box>
         </>

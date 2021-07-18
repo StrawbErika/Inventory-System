@@ -21,7 +21,13 @@ export default function Request({ item, requestItems, onRequest, user }) {
   };
 
   return (
-    <Box display="flex" flexDirection="row" alignItems={"center"}>
+    <Box
+      display="flex"
+      flexDirection="row"
+      alignItems={"center"}
+      justifyContent="center"
+      mt={1}
+    >
       Your request for
       <Box mx={1} color="blue">
         {item.name}
@@ -39,7 +45,9 @@ export default function Request({ item, requestItems, onRequest, user }) {
           </Button>
         </Box>
       ) : (
-        <>{item.status}</>
+        <Box ml={1} border={"solid 1px"} borderRadius={5} color="green" p={1}>
+          {item.status}
+        </Box>
       )}
     </Box>
   );

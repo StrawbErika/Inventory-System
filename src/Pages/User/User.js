@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { TextField, Box, Radio, Button } from "@material-ui/core/";
+import { Box, Button } from "@material-ui/core/";
 import { db } from "../../db";
-import firebase from "firebase/app";
 import "firebase/auth";
 import Item from "./Components/Item/Item";
 import Request from "./Components/Request/Request";
 import Owned from "./Components/Owned/Owned";
-import { useHistory, Link } from "react-router-dom";
 
 export default function User({ user, onLogout }) {
   const [items, setItems] = useState(null);
@@ -77,10 +75,15 @@ export default function User({ user, onLogout }) {
         </Box>
       </Box>
       <Box display="flex" justifyContent="center" alignItems="flex-start">
-        <Box display="flex" flexDirection="column" width="30%">
-          {/* <Box fontSize={20} mb={2}>
+        <Box
+          display="flex"
+          flexDirection="column"
+          width="30%"
+          alignItems="center"
+        >
+          <Box fontSize={20} mb={2}>
             Items
-          </Box> */}
+          </Box>
           {items &&
             items.map((item) => {
               return <Item item={item} user={user} />;

@@ -71,6 +71,9 @@ export default function Admin({ user, onLogout }) {
         </Box>
         <Box display="flex" flexDirection="row" mt={5}>
           <Box mx={10}>
+            <Box mb={2} fontSize={20}>
+              Items
+            </Box>
             {items &&
               items.map((item) => {
                 return (
@@ -83,6 +86,9 @@ export default function Admin({ user, onLogout }) {
               })}
           </Box>
           <Box mx={10}>
+            <Box mb={2} fontSize={20}>
+              Users
+            </Box>
             {users &&
               users.map((user) => {
                 // return <Request user={user} />;

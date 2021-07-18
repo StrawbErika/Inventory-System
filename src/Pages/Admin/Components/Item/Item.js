@@ -3,6 +3,7 @@ import { TextField, Box, Radio, Button } from "@material-ui/core/";
 import firebase from "firebase/app";
 import { db } from "../../../../db";
 import "firebase/auth";
+import { Edit, Delete, Done } from "@material-ui/icons/";
 
 export default function Item({ item, items, onDeleteItem }) {
   const [editing, setEditing] = useState(false);
@@ -52,22 +53,22 @@ export default function Item({ item, items, onDeleteItem }) {
             alignItems="center"
             justifyContent="flex-start"
           >
-            <Box>
+            <Box width="100px">
+              <TextField
+                label="Quantity"
+                name="quantity"
+                value={tempItem.quantity}
+                onChange={handleFieldChange}
+                type="number"
+                variant="outlined"
+              />
+            </Box>
+            <Box mx={1}>
               <TextField
                 label="Item Name"
                 name="name"
                 value={tempItem.name}
                 onChange={handleFieldChange}
-                variant="outlined"
-              />
-            </Box>
-            <Box mx={1} width="100px">
-              <TextField
-                label="Item Quantity"
-                name="quantity"
-                value={tempItem.quantity}
-                onChange={handleFieldChange}
-                type="number"
                 variant="outlined"
               />
             </Box>
@@ -80,7 +81,7 @@ export default function Item({ item, items, onDeleteItem }) {
                   setEditing(false);
                 }}
               >
-                Done
+                <Done />
               </Button>
             </Box>
           </Box>
@@ -102,7 +103,7 @@ export default function Item({ item, items, onDeleteItem }) {
             setTemptItem(item);
           }}
         >
-          Edit
+          <Edit />
         </Button>
       </Box>
 
@@ -113,7 +114,7 @@ export default function Item({ item, items, onDeleteItem }) {
           deleteItem(item.id);
         }}
       >
-        Delete
+        <Delete />
       </Button>
     </Box>
   );
