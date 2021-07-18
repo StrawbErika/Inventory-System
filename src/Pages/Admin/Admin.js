@@ -7,7 +7,7 @@ import AddItem from "./Components/AddItem/AddItem";
 import Item from "./Components/Item/Item";
 import Requests from "./Components/Requests/Requests";
 
-export default function Admin() {
+export default function Admin({ user, onLogout }) {
   const [items, setItems] = useState(null);
   const [users, setUsers] = useState(null);
 
@@ -38,44 +38,74 @@ export default function Admin() {
   const handleChangeItem = (items) => {
     setItems(items);
   };
+  const signOut = () => {
+    onLogout();
+  };
 
   useEffect(() => {
     initializeItems();
     initializeUsers();
   }, []);
   return (
-    <div>
+    <Box my={10}>
+      <Box mx={3} display="flex" justifyContent="flex-end">
+        <Button variant="outlined" color="secondary" onClick={signOut}>
+          {" "}
+          Sign Out
+        </Button>
+      </Box>
       <Box
         display="flex"
         flexDirection="column"
         justifyContent="center"
         alignItems="center"
       >
-        Are you an admin?
+        <Box mt={3} mb={5} fontSize={20} display="flex" flexDirection="column">
+          <Box>
+            <Box>Welcome Admin {user.displayName},</Box>
+            <Box>what would you like to do today?</Box>
+          </Box>
+        </Box>
         <Box display="flex" flexDirection="column">
           <AddItem onAddItem={handleAddItem} />
         </Box>
-        {items &&
-          items.map((item) => {
-            return (
-              <Item item={item} items={items} onDeleteItem={handleChangeItem} />
-            );
-          })}
-        {users &&
-          users.map((user) => {
-            // return <Request user={user} />;
-            return (
-              <Box display="flex" flexDirection="column">
-                <>{user.displayName} requests: </>
-                <Requests
-                  user={user}
-                  items={items}
-                  onChangeOriginalItem={handleChangeItem}
-                />
-              </Box>
-            );
-          })}
+        <Box display="flex" flexDirection="row" mt={5}>
+          <Box mx={10}>
+            {items &&
+              items.map((item) => {
+                return (
+                  <Item
+                    item={item}
+                    items={items}
+                    onDeleteItem={handleChangeItem}
+                  />
+                );
+              })}
+          </Box>
+          <Box mx={10}>
+            {users &&
+              users.map((user) => {
+                // return <Request user={user} />;
+                return (
+                  <Box
+                    mt={2}
+                    display="flex"
+                    flexDirection="column"
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <Box>{user.displayName} requests:</Box>
+                    <Requests
+                      user={user}
+                      items={items}
+                      onChangeOriginalItem={handleChangeItem}
+                    />
+                  </Box>
+                );
+              })}
+          </Box>
+        </Box>
       </Box>
-    </div>
+    </Box>
   );
 }

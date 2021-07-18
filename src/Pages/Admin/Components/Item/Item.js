@@ -43,53 +43,68 @@ export default function Item({ item, items, onDeleteItem }) {
   };
 
   return (
-    <Box display="flex" flexDirection="row" alignItems={"center"}>
+    <Box display="flex" flexDirection="row" alignItems={"center"} my={1}>
       <Box marginRight={2}>
         {editing ? (
-          <Box display="flex" flexDirection="row" alignItems="center">
-            <TextField
-              label="Item Name"
-              name="name"
-              value={tempItem.name}
-              onChange={handleFieldChange}
-              variant="outlined"
-            />
-            <TextField
-              label="Item Quantity"
-              name="quantity"
-              value={tempItem.quantity}
-              onChange={handleFieldChange}
-              type="number"
-              variant="outlined"
-            />
-            <Button
-              variant="contained"
-              color="secondary"
-              onClick={() => {
-                editItem(tempItem.id);
-                setEditing(false);
-              }}
-            >
-              Done
-            </Button>
+          <Box
+            display="flex"
+            flexDirection="row"
+            alignItems="center"
+            justifyContent="flex-start"
+          >
+            <Box>
+              <TextField
+                label="Item Name"
+                name="name"
+                value={tempItem.name}
+                onChange={handleFieldChange}
+                variant="outlined"
+              />
+            </Box>
+            <Box mx={1} width="100px">
+              <TextField
+                label="Item Quantity"
+                name="quantity"
+                value={tempItem.quantity}
+                onChange={handleFieldChange}
+                type="number"
+                variant="outlined"
+              />
+            </Box>
+            <Box>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => {
+                  editItem(tempItem.id);
+                  setEditing(false);
+                }}
+              >
+                Done
+              </Button>
+            </Box>
           </Box>
         ) : (
-          <>
-            {item.quantity}
-            {item.name}
-          </>
+          <Box display="flex" flexDirection="row">
+            <Box mx={1} width="20px">
+              {item.quantity}
+            </Box>
+            <Box width="100px">{item.name}</Box>
+          </Box>
         )}
       </Box>
-      <Button
-        variant="contained"
-        color="secondary"
-        onClick={() => {
-          setEditing(!editing);
-          setTemptItem(item);
-        }}
-      >
-        Edit
-      </Button>
+      <Box mx={1}>
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => {
+            setEditing(!editing);
+            setTemptItem(item);
+          }}
+        >
+          Edit
+        </Button>
+      </Box>
 
       <Button
         variant="contained"

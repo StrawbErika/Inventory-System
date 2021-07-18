@@ -45,7 +45,9 @@ export default function Requests({ user, items, onChangeOriginalItem }) {
           );
         })
       ) : (
-        <div> None </div>
+        <Box color="gray" my={2}>
+          No requests
+        </Box>
       )}
     </Box>
   );

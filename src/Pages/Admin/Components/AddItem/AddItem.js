@@ -35,23 +35,32 @@ export default function AddItem({ onAddItem }) {
 
   return (
     <div>
-      <Box display="flex" flexDirection="row">
-        <TextField
-          label="Item Name"
-          name="name"
-          onChange={handleFieldChange}
-          variant="outlined"
-        />
-        <TextField
-          label="Item Quantity"
-          name="quantity"
-          onChange={handleFieldChange}
-          type="number"
-          variant="outlined"
-        />
-        <Button variant="contained" color="primary" onClick={handleAddItem}>
-          Add
-        </Button>
+      <Box display="flex" flexDirection="column">
+        <Box my={2} fontSize={20}>
+          Add an Item into the List
+        </Box>
+        <Box display="flex" flexDirection="row" mb={2}>
+          <Box mr={1}>
+            <TextField
+              label="Item Name"
+              name="name"
+              onChange={handleFieldChange}
+              variant="outlined"
+            />
+          </Box>
+          <Box width="100px" mr={1}>
+            <TextField
+              label="Quantity"
+              name="quantity"
+              onChange={handleFieldChange}
+              type="number"
+              variant="outlined"
+            />
+          </Box>
+          <Button variant="contained" color="primary" onClick={handleAddItem}>
+            Add
+          </Button>
+        </Box>
       </Box>
     </div>
   );

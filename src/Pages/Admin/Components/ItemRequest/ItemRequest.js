@@ -81,22 +81,34 @@ export default function ItemRequest({
   //TODO: instant load on decline
 
   return (
-    <Box display="flex" flexDirection="row" alignItems={"center"}>
-      {item.name}
-      {item.quantity}
+    <Box display="flex" flexDirection="row" alignItems={"center"} my={1}>
+      <Box>{item.name}</Box>
+      <Box mx={1}>{item.quantity}</Box>
+
       {item.status === "declined" ? (
         <div> {item.status} </div>
       ) : (
         <>
           {canAllow && (
-            <Button variant="contained" color="secondary" onClick={handleAllow}>
-              allow
-            </Button>
+            <Box>
+              <Button
+                variant="contained"
+                color="secondary"
+                onClick={handleAllow}
+              >
+                allow
+              </Button>
+            </Box>
           )}
-
-          <Button variant="contained" color="secondary" onClick={handleDecline}>
-            decline
-          </Button>
+          <Box mx={1}>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleDecline}
+            >
+              decline
+            </Button>
+          </Box>
         </>
       )}
     </Box>

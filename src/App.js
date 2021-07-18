@@ -104,7 +104,7 @@ function App() {
           </Route>
           <Route exact path="/admin">
             {isLoggedIn && userDetails.type === "admin" ? (
-              <Admin />
+              <Admin user={userDetails} onLogout={logout} />
             ) : (
               <Redirect to="/login" />
             )}

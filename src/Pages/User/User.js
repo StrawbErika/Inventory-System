@@ -52,7 +52,6 @@ export default function User({ user, onLogout }) {
     run();
   };
 
-  // TODO: WIP logging out
   const signOut = () => {
     onLogout();
   };
