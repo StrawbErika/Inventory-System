@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { TextField, Box, Radio, Button } from "@material-ui/core/";
-import { db } from "../../db";
-import firebase from "firebase/app";
 import "firebase/auth";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
 
 export default function Login({ onLogin, error }) {
   const [user, setUser] = useState({

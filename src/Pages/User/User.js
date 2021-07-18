@@ -69,21 +69,33 @@ export default function User({ user }) {
           items.map((item) => {
             return <Item item={item} user={user} />;
           })}
-        {requests &&
-          requests.map((request) => {
-            return (
-              <Request
-                item={request}
-                requestItems={requests}
-                onRequest={handleRequests}
-                user={user}
-              />
-            );
-          })}
-        {owned &&
-          owned.map((own) => {
-            return <Owned item={own} />;
-          })}
+        <div>Requests</div>
+        <div>
+          {requests && requests.length > 0 ? (
+            requests.map((request) => {
+              return (
+                <Request
+                  item={request}
+                  requestItems={requests}
+                  onRequest={handleRequests}
+                  user={user}
+                />
+              );
+            })
+          ) : (
+            <> None </>
+          )}
+        </div>
+        <div>Owned</div>
+        <div>
+          {owned && owned.length > 0 ? (
+            owned.map((own) => {
+              return <Owned item={own} />;
+            })
+          ) : (
+            <>None </>
+          )}
+        </div>
       </Box>
     </div>
   );

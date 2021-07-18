@@ -6,7 +6,7 @@ import "firebase/auth";
 import ItemRequest from "../ItemRequest/ItemRequest";
 import Item from "../../../User/Components/Item/Item";
 
-export default function Requests({ user }) {
+export default function Requests({ user, items, onChangeOriginalItem }) {
   const [itemRequests, setItemRequests] = useState(null);
   const getUserRequests = () => {
     async function run() {
@@ -37,8 +37,10 @@ export default function Requests({ user }) {
             <ItemRequest
               item={item}
               user={user}
-              items={itemRequests}
+              items={items}
+              itemRequests={itemRequests}
               onRequestItem={handleItemRequests}
+              onChangeOriginalItem={onChangeOriginalItem}
             />
           );
         })

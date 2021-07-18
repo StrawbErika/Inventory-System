@@ -35,7 +35,7 @@ export default function Admin() {
     setItems([...items, item]);
   };
 
-  const handleDeleteItem = (items) => {
+  const handleChangeItem = (items) => {
     setItems(items);
   };
 
@@ -58,7 +58,7 @@ export default function Admin() {
         {items &&
           items.map((item) => {
             return (
-              <Item item={item} items={items} onDeleteItem={handleDeleteItem} />
+              <Item item={item} items={items} onDeleteItem={handleChangeItem} />
             );
           })}
         {users &&
@@ -67,7 +67,11 @@ export default function Admin() {
             return (
               <Box display="flex" flexDirection="column">
                 <>{user.displayName} requests: </>
-                <Requests user={user} />
+                <Requests
+                  user={user}
+                  items={items}
+                  onChangeOriginalItem={handleChangeItem}
+                />
               </Box>
             );
           })}
