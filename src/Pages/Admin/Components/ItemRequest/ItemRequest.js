@@ -16,6 +16,7 @@ export default function ItemRequest({
   const handleAllow = () => {
     const originalItem = items.filter((list) => list.id == item.id)[0];
     if (item.quantity < originalItem.quantity) {
+      // TODO: for safety parse into int
       db.collection("users")
         .doc(user.id)
         .collection("requesting")
@@ -58,10 +59,8 @@ export default function ItemRequest({
     } else {
       console.log(`${originalItem.quantity} is less than ${item.quantity}`);
       setCanAllow(false);
-      // Snackbar then immediate decline
     }
   };
-  // TODO: modify quantity of item when allow
 
   const handleDecline = () => {
     db.collection("users")
@@ -79,6 +78,8 @@ export default function ItemRequest({
     };
     onRequestItem([...removedItem, newItem]);
   };
+  //TODO: instant load on decline
+
   return (
     <Box display="flex" flexDirection="row" alignItems={"center"}>
       {item.name}
