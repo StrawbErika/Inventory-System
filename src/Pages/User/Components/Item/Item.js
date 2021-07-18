@@ -40,30 +40,39 @@ export default function Item({ item, user }) {
   };
   return (
     <Box display="flex" flexDirection="row" alignItems={"center"}>
-      <Box marginRight={2}>
-        <>
-          {item.quantity}
+      <Box
+        my={1}
+        display="flex"
+        flexDirection="row"
+        alignItems="center"
+        justifyContent="flex-start"
+      >
+        <Box mx={2} width="100px">
           {item.name}
+        </Box>
+        <Box width="100px" marginRight={2}>
           <TextField
-            label="Item Quantity"
+            label="QTY"
             name="quantity"
             onChange={handleFieldChange}
             value={tempItem.quantity}
             type="number"
             variant="outlined"
+            // size="small"
           />
-        </>
+        </Box>
+
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() => {
+            requestItem();
+          }}
+        >
+          Request
+        </Button>
       </Box>
 
-      <Button
-        variant="contained"
-        color="secondary"
-        onClick={() => {
-          requestItem();
-        }}
-      >
-        Request
-      </Button>
       {response && <div>{response}</div>}
     </Box>
   );

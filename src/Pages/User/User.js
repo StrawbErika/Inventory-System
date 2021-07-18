@@ -6,7 +6,11 @@ import "firebase/auth";
 import Item from "./Components/Item/Item";
 import Request from "./Components/Request/Request";
 import Owned from "./Components/Owned/Owned";
+import { useHistory, Link } from "react-router-dom";
+
 export default function User({ user }) {
+  let history = useHistory();
+
   const [items, setItems] = useState(null);
   const [requests, setRequests] = useState(null);
   const [owned, setOwned] = useState(null);
@@ -50,6 +54,20 @@ export default function User({ user }) {
     run();
   };
 
+  // TODO: WIP logging out
+  const signOut = () => {
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        console.log("signed out uwu");
+        history.push("/login");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     initializeItems();
     initializeRequests();
@@ -57,46 +75,66 @@ export default function User({ user }) {
   }, []);
 
   return (
-    <div>
-      <Box
-        display="flex"
-        flexDirection="column"
-        justifyContent="center"
-        alignItems="center"
-      >
-        Are you a User?
-        {items &&
-          items.map((item) => {
-            return <Item item={item} user={user} />;
-          })}
-        <div>Requests</div>
-        <div>
-          {requests && requests.length > 0 ? (
-            requests.map((request) => {
-              return (
-                <Request
-                  item={request}
-                  requestItems={requests}
-                  onRequest={handleRequests}
-                  user={user}
-                />
-              );
-            })
-          ) : (
-            <> None </>
-          )}
-        </div>
-        <div>Owned</div>
-        <div>
-          {owned && owned.length > 0 ? (
-            owned.map((own) => {
-              return <Owned item={own} />;
-            })
-          ) : (
-            <>None </>
-          )}
-        </div>
+    <Box my={10}>
+      <Box mx={3} display="flex" justifyContent="flex-end">
+        <Button variant="outlined" color="secondary" onClick={signOut}>
+          {" "}
+          Sign Out
+        </Button>
       </Box>
-    </div>
+      <Box mt={3} mb={5} fontSize={20} display="flex" flexDirection="column">
+        <Box>
+          <Box>Welcome {user.displayName},</Box>
+          <Box>what would you like to request today?</Box>
+        </Box>
+      </Box>
+      <Box display="flex" justifyContent="center" alignItems="flex-start">
+        <Box display="flex" flexDirection="column" width="30%">
+          {/* <Box fontSize={20} mb={2}>
+            Items
+          </Box> */}
+          {items &&
+            items.map((item) => {
+              return <Item item={item} user={user} />;
+            })}
+        </Box>{" "}
+        <Box display="flex" flexDirection="column" width="30%">
+          <Box fontSize={20}>Requests</Box>
+          <div>
+            {requests && requests.length > 0 ? (
+              requests.map((request) => {
+                return (
+                  <Request
+                    item={request}
+                    requestItems={requests}
+                    onRequest={handleRequests}
+                    user={user}
+                  />
+                );
+              })
+            ) : (
+              <Box color="gray" fontSize={20} my={2}>
+                {" "}
+                No outgoing requests
+              </Box>
+            )}
+          </div>
+        </Box>
+        <Box display="flex" flexDirection="column" width="30%">
+          <Box fontSize={20}>Approved/Owned Items</Box>
+          <Box mt={2} display="flex" flexDirection="column" alignItems="center">
+            {owned && owned.length > 0 ? (
+              owned.map((own) => {
+                return <Owned item={own} />;
+              })
+            ) : (
+              <Box color="gray" fontSize={20} my={2}>
+                No items owned
+              </Box>
+            )}
+          </Box>
+        </Box>
+      </Box>
+    </Box>
   );
 }

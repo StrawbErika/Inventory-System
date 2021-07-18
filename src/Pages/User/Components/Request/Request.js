@@ -22,13 +22,22 @@ export default function Request({ item, requestItems, onRequest, user }) {
 
   return (
     <Box display="flex" flexDirection="row" alignItems={"center"}>
-      {item.name}
-      {item.quantity}
+      Your request for
+      <Box mx={1} color="blue">
+        {item.name}
+      </Box>
+      of quantity
+      <Box marginLeft={1} color="blue">
+        {item.quantity}
+      </Box>
       {item.status === "declined" ? (
-        <>
-          Has been declined
-          <Button onClick={handleOk}> OK </Button>
-        </>
+        <Box display="flex" flexDirection="row" alignItems="center">
+          <Box mx={1}>has been declined</Box>
+          <Button variant="outlined" color="primary" onClick={handleOk}>
+            {" "}
+            OK{" "}
+          </Button>
+        </Box>
       ) : (
         <>{item.status}</>
       )}

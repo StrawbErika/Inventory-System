@@ -3,7 +3,7 @@ import { TextField, Box, Radio, Button } from "@material-ui/core/";
 import { db } from "../../db";
 import firebase from "firebase/app";
 import "firebase/auth";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link } from "react-router-dom";
 
 export default function SignUp() {
   let history = useHistory();
@@ -31,7 +31,7 @@ export default function SignUp() {
       error: "",
     });
   };
-
+  // TODO: snackbar feedback
   const handleSubmit = async () => {
     try {
       const createdUser = await firebase
@@ -126,6 +126,10 @@ export default function SignUp() {
       <Button variant="contained" color="primary" onClick={handleSubmit}>
         Sign Up
       </Button>
+
+      <Box marginTop={2}>
+        <Link to="/login"> Already have an account?</Link>
+      </Box>
     </Box>
   );
 }
