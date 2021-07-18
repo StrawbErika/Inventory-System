@@ -34,7 +34,6 @@ export default function Item({ item, user }) {
     if (tempItem.quantity > item.quantity) {
       setResponse(`You are requesting more than what is available`);
     } else {
-      setResponse("Ok pls wait while we ask the admins");
       try {
         db.collection("users")
           .doc(user.id)

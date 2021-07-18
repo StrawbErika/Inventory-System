@@ -25,6 +25,7 @@ export default function Item({ item, items, onDeleteItem }) {
   const [tempItem, setTemptItem] = useState(item);
 
   const deleteItem = (ID) => {
+    deleteBorrowersItems(ID);
     db.collection("items")
       .doc(ID)
       .delete()
@@ -36,6 +37,33 @@ export default function Item({ item, items, onDeleteItem }) {
         alert("Error removing document: ", error);
       });
   };
+
+  const deleteBorrowersItems = (ID) => {
+    async function run() {
+      const res = await db
+        .collection("items")
+        .doc(ID)
+        .collection("borrowers")
+        .get();
+      const docs = res.docs;
+      const ids = docs.map((doc) => doc.data().id);
+      ids.map((id) => {
+        db.collection("users")
+          .doc(id)
+          .collection("owned")
+          .doc(ID)
+          .delete()
+          .then(() => {
+            console.log("items deleted");
+          })
+          .catch((error) => {
+            alert("Error removing document: ", error);
+          });
+      });
+    }
+    run();
+  };
+
   const handleFieldChange = (e) => {
     setTemptItem({
       ...tempItem,

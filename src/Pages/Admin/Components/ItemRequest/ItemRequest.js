@@ -60,6 +60,14 @@ export default function ItemRequest({
         db.collection("items").doc(item.id).update({
           quantity: editedQty,
         });
+        db.collection("items")
+          .doc(item.id)
+          .collection("borrowers")
+          .doc(user.id)
+          .set({
+            id: user.id,
+            quantity: editedQty,
+          });
         const itemList = items.filter((original) => original.id != item.id);
         const editedItem = {
           id: item.id,
