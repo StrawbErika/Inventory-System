@@ -72,16 +72,18 @@ export default function Item({ item, items, onDeleteItem }) {
   };
 
   const editItem = (ID) => {
-    db.collection("items").doc(ID).update({
-      name: tempItem.name,
-      quantity: tempItem.quantity,
-    });
+    db.collection("items")
+      .doc(ID)
+      .update({
+        name: tempItem.name,
+        quantity: parseInt(tempItem.quantity),
+      });
     const removedItem = items.filter((item) => item.id != ID);
     // TODO:rename too
     const newItem = {
       id: ID,
       name: tempItem.name,
-      quantity: tempItem.quantity,
+      quantity: parseInt(tempItem.quantity),
     };
     onDeleteItem([...removedItem, newItem]);
     // TODO:rename onDelete to a more general

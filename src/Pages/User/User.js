@@ -116,7 +116,7 @@ export default function User({ user, onLogout }) {
           <Box mt={2} display="flex" flexDirection="column" alignItems="center">
             {owned && owned.length > 0 ? (
               owned.map((own) => {
-                return <Owned item={own} />;
+                return <Owned item={own} user={user} />;
               })
             ) : (
               <Box color="gray" fontSize={20} my={2}>
