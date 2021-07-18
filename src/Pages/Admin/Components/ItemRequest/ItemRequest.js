@@ -3,6 +3,7 @@ import { Box, Button } from "@material-ui/core/";
 import { db } from "../../../../db";
 import "firebase/auth";
 import { Close, Check } from "@material-ui/icons/";
+import SimpleSnackbar from "../../../../Components/SimpleSnackbar/SimpleSnackbar";
 
 export default function ItemRequest({
   item,
@@ -12,6 +13,19 @@ export default function ItemRequest({
   onRequestItem,
   onChangeOriginalItem,
 }) {
+  const [open, setOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState(null);
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
   const [canAllow, setCanAllow] = useState(true);
 
   const handleAllow = () => {
@@ -24,7 +38,6 @@ export default function ItemRequest({
         .doc(item.id)
         .delete()
         .then(() => {
-          alert("Document successfully deleted!");
           onRequestItem(
             itemRequests.filter((request) => request.id != item.id)
           );
@@ -57,8 +70,11 @@ export default function ItemRequest({
       } catch (error) {
         console.error(error);
       }
+      handleClick();
+      setSnackbarMessage("Request approved");
     } else {
-      console.log(`${originalItem.quantity} is less than ${item.quantity}`);
+      handleClick();
+      setSnackbarMessage("Request asks more than what is available");
       setCanAllow(false);
     }
   };
@@ -78,6 +94,8 @@ export default function ItemRequest({
       quantity: item.quantity,
     };
     onRequestItem([...removedItem, newItem]);
+    handleClick();
+    setSnackbarMessage("Request has been declined");
   };
   //TODO: instant load on decline
 
@@ -112,6 +130,11 @@ export default function ItemRequest({
           </Box>
         </>
       )}
+      <SimpleSnackbar
+        message={snackbarMessage}
+        open={open}
+        handleClose={handleClose}
+      />
     </Box>
   );
 }

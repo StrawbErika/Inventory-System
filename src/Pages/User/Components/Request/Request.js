@@ -12,7 +12,6 @@ export default function Request({ item, requestItems, onRequest, user }) {
       .doc(item.id)
       .delete()
       .then(() => {
-        alert("Document successfully deleted!");
         onRequest(requestItems.filter((request) => request.id != item.id));
       })
       .catch((error) => {

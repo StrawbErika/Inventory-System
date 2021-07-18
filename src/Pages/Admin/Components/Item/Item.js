@@ -4,17 +4,33 @@ import firebase from "firebase/app";
 import { db } from "../../../../db";
 import "firebase/auth";
 import { Edit, Delete, Done } from "@material-ui/icons/";
+import SimpleSnackbar from "../../../../Components/SimpleSnackbar/SimpleSnackbar";
 
 export default function Item({ item, items, onDeleteItem }) {
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   const [editing, setEditing] = useState(false);
   const [tempItem, setTemptItem] = useState(item);
+
   const deleteItem = (ID) => {
     db.collection("items")
       .doc(ID)
       .delete()
       .then(() => {
-        alert("Document successfully deleted!");
         onDeleteItem(items.filter((item) => item.id != ID));
+        handleClick();
       })
       .catch((error) => {
         alert("Error removing document: ", error);
@@ -116,6 +132,11 @@ export default function Item({ item, items, onDeleteItem }) {
       >
         <Delete />
       </Button>
+      <SimpleSnackbar
+        message={"Item has been deleted"}
+        open={open}
+        handleClose={handleClose}
+      />
     </Box>
   );
 }

@@ -4,8 +4,23 @@ import { db } from "../../../../db";
 import firebase from "firebase/app";
 import "firebase/auth";
 import { Add } from "@material-ui/icons/";
+import SimpleSnackbar from "../../../../Components/SimpleSnackbar/SimpleSnackbar";
 
 export default function AddItem({ onAddItem }) {
+  const [open, setOpen] = useState(false);
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   const [item, setItem] = useState(null);
   const handleFieldChange = (e) => {
     setItem({
@@ -29,6 +44,7 @@ export default function AddItem({ onAddItem }) {
         quantity: item.quantity,
       };
       onAddItem(newItem);
+      handleClick();
     } catch (error) {
       console.error(error);
     }
@@ -63,6 +79,11 @@ export default function AddItem({ onAddItem }) {
           </Button>
         </Box>
       </Box>
+      <SimpleSnackbar
+        message={"Item has been added"}
+        open={open}
+        handleClose={handleClose}
+      />
     </div>
   );
 }
